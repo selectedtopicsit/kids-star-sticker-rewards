@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kids Star Sticker Rewards</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+
+<button id="resetBtn" class="btn danger small reset-button">Reset</button>
+
+<div class="container">
+
+    <h1 class="main-title">⭐ Kids Star Sticker Rewards ⭐</h1>
+
+    <!-- Add Kid -->
+    <section class="card">
+        <h2>Add Kid</h2>
+
+        <label for="kidName">Kid's Name</label>
+        <input id="kidName" class="input-text" />
+        <div id="err_kidName" class="error-msg"></div>
+
+        <label for="avatarContainer">Pick Avatar</label>
+        <div id="avatarContainer" class="avatar-grid"></div>
+        <div id="err_avatar" class="error-msg"></div>
+
+        <button id="addKidBtn" class="btn primary wide">Add Kid</button>
+    </section>
+
+    <!-- Kids List -->
+    <section id="kidsList"></section>
+
+    <!-- Add Star -->
+    <section class="card">
+        <h2>Add Star Type</h2>
+
+        <label for="starName">Star Name</label>
+        <input id="starName" class="input-text" />
+        <div id="err_starName" class="error-msg"></div>
+
+        <label for="starMeaning">Meaning</label>
+        <input id="starMeaning" class="input-text" />
+        <div id="err_starMeaning" class="error-msg"></div>
+
+        <label for="starNeeded">Stars Needed for Prize</label>
+        <input id="starNeeded" class="input-text" type="number" />
+        <div id="err_starNeeded" class="error-msg"></div>
+
+        <label for="starColour">Colour</label>
+        <div class="colour-picker">
+            <div id="colourPreview" class="colour-circle"></div>
+            <input id="starColour" type="color" />
+        </div>
+
+        <button id="addStarTypeBtn" class="btn primary wide">Add Star Type</button>
+    </section>
+
+    <!-- Star Types -->
+    <section id="starTypesList"></section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

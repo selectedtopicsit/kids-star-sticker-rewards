@@ -1,0 +1,170 @@
+body {
+    margin: 0;
+    background: linear-gradient(to bottom, #b7ddf6, #8fc7ec);
+    font-family: "Segoe UI", sans-serif;
+    color: #1d4059;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 25px;
+}
+
+.main-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #f3f9ff;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 20px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.input-text {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 14px;
+    border: 2px solid #9bc7e3;
+    box-sizing: border-box;
+}
+
+.error {
+    border-color: #d13a3a !important;
+    background: #ffe6e6 !important;
+}
+
+.error-msg {
+    display: none;
+    color: #b42525;
+    font-size: 14px;
+}
+
+.btn {
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 14px;
+    cursor: pointer;
+    border: none;
+}
+.btn.primary { background: #5fa5df; color: white; }
+.btn.danger { background: #ca5347; color: white; }
+.btn.small { padding: 6px 12px; font-size: 14px; }
+.btn.wide { width: 100%; margin-top: 20px; }
+
+.reset-button {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 2000;
+}
+
+/* Avatars */
+.avatar-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 4px solid transparent;
+}
+
+.avatar.selected {
+    border-color: #1d4059;
+}
+
+/* Colour picker */
+.colour-picker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.colour-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #333;
+}
+
+.kid-card {
+    background: white;
+    padding: 18px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.kid-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.kid-avatar {
+    width: 60px;
+    height: 60px;
+}
+
+.kid-controls {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+
+.pm-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    font-size: 22px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.star-controls {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.tick-row {
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 26px;
+}
+
+.starTypeCard {
+    margin-bottom: 15px;
+}
+
+.starTypeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.starTypeButtons {
+    display: flex;
+    gap: 8px;
+}
