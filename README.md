@@ -46,7 +46,11 @@ https://selectedtopicsit.github.io/kids-star-sticker-rewards/
 
 ---
 
-## Credits
+## 🫶 Credits & 🎥 Watch the Video Demo  
+Built by **Selected Topics in IT** with the help of **ChatGPT (OpenAI)**.  
 
-Built with help from ChatGPT.
+▶️ [**Full YouTube Tutorial**](https://www.youtube.com/watch?v=00XG0YiqY10)  
+📺 More tutorials → [@SelectedTopicsInIT](https://www.youtube.com/@selectedtopicsinit1274)
+
+© 2025 Voice Recorder + Beat Lab
 
