@@ -44,6 +44,11 @@ label {
     box-sizing: border-box;
 }
 
+select.input-text {
+    padding: 10px 12px;
+    background: white;
+}
+
 .error {
     border-color: #d13a3a !important;
     background: #ffe6e6 !important;
@@ -98,6 +103,7 @@ label {
     display: flex;
     align-items: center;
     gap: 12px;
+	margin-bottom: 16px;  	
 }
 .colour-circle {
     width: 32px;
@@ -167,4 +173,33 @@ label {
 .starTypeButtons {
     display: flex;
     gap: 8px;
+}
+
+/* ⭐ Toast Notifications (Blue Style) */
+#toastContainer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 3000;
+}
+
+.toast {
+    background: #5fa5df;
+    color: white;
+    padding: 12px 18px;
+    margin-top: 10px;
+    border-radius: 12px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    font-size: 16px;
+    opacity: 0;
+    transform: translateX(40px);
+    animation: toastIn 0.35s forwards, toastOut 0.35s 2.4s forwards;
+}
+
+@keyframes toastIn {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastOut {
+    to { opacity: 0; transform: translateX(40px); }
 }

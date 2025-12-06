@@ -10,7 +10,29 @@ $(document).ready(function () {
     if (!Array.isArray(starTypes)) starTypes = [];
 
     //---------------------------------------------------
-    // PASTEL AVATARS (60px SVG)
+    // TOAST NOTIFICATIONS
+    //---------------------------------------------------
+    function showToast(msg) {
+        let t = $(`<div class="toast">${msg}</div>`);
+        $("#toastContainer").append(t);
+        setTimeout(() => t.remove(), 3000);
+    }
+
+    //---------------------------------------------------
+    // PRE-MADE STAR LIBRARY
+    //---------------------------------------------------
+    const PRESET_STARS = {
+        kindness:   { name:"Kindness", meaning:"Being kind & gentle", colour:"#f6d860", needed:5 },
+        routine:    { name:"Routine Tasks", meaning:"Daily tasks completed", colour:"#60a5fa", needed:5 },
+        helping:    { name:"Helping Others", meaning:"Helping people around them", colour:"#fb7185", needed:5 },
+        study:      { name:"Study / Homework", meaning:"School work or learning", colour:"#34d399", needed:5 },
+        sharing:    { name:"Sharing", meaning:"Sharing toys, items, food", colour:"#c084fc", needed:5 },
+        respectful: { name:"Respectful", meaning:"Good manners & respect", colour:"#facc15", needed:5 },
+        cleanup:    { name:"Clean Up Time", meaning:"Cleaning toys/room", colour:"#38bdf8", needed:5 },
+    };
+
+    //---------------------------------------------------
+    // AVATAR SVG SYSTEM (unchanged)
     //---------------------------------------------------
     function avatarSVG(bg, skin, eyes, mouth, blush) {
         return `
@@ -24,25 +46,99 @@ $(document).ready(function () {
         </svg>`;
     }
 
-    const AVATARS = [
-        avatarSVG("#bde5ff","#ffe1c4",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<path d="M40 60 Q50 70 60 60" stroke="black" fill="none" stroke-width="3"/>`,false),
-        avatarSVG("#ffd4e5","#ffe1c4",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<path d="M38 60 Q50 75 62 60" stroke="black" fill="none" stroke-width="3"/>`,true),
-        avatarSVG("#e0ffe4","#f7d7b2",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<line x1="40"y1="60"x2="60"y2="60"stroke="black"stroke-width="3"/>`,false),
-        avatarSVG("#fff8c2","#f1c08f",`<rect x="36"y="40"width="10"height="6"fill="black"/><rect x="54"y="40"width="10"height="6"fill="black"/>`,`<path d="M40 62 Q50 72 60 62"stroke="black"fill="none"stroke-width="3"/>`,false),
-        avatarSVG("#e5d9ff","#d9a06d",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<path d="M40 63 Q50 55 60 63" stroke="black" fill="none" stroke-width="3"/>`,false),
-        avatarSVG("#bde5ff","#9b6a43",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<path d="M40 63 Q50 73 60 63" stroke="black" fill="none" stroke-width="3"/>`,true),
-        avatarSVG("#ffd4e5","#ffe1c4",`<polygon points="36,42 46,42 41,34" fill="black"/><polygon points="54,42 64,42 59,34" fill="black"/>`,`<path d="M40 62 Q50 70 60 62" stroke="black" fill="none" stroke-width="3"/>`,false),
-        avatarSVG("#e0ffe4","#f7d7b2",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<path d="M40 60 Q50 65 60 60" stroke="black" fill="none" stroke-width="3"/>`,false),
-        avatarSVG("#fff8c2","#f1c08f",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<path d="M38 63 Q50 78 62 63" stroke="black" fill="none" stroke-width="3"/>`,true),
-        avatarSVG("#e5d9ff","#d9a06d",`<rect x="36" y="40" width="10" height="6" fill="black"/><rect x="54" y="40" width="10" height="6" fill="black"/>`,`<path d="M40 62 Q50 55 60 62" stroke="black" fill="none" stroke-width="3"/>`,false),
-        avatarSVG("#bde5ff","#f7d7b2",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<path d="M40 65 Q50 80 60 65" stroke="black" fill="none" stroke-width="3"/>`,false),
-        avatarSVG("#ffd4e5","#9b6a43",`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,`<line x1="40"y1="60"x2="60"y2="60"stroke="black"stroke-width="3"/>`,true)
-    ];
+	const AVATARS = [
+		// Big standard smile
+		avatarSVG("#bde5ff", "#ffe1c4",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M38 58 Q50 75 62 58" stroke="black" fill="none" stroke-width="3"/>`,
+			false
+		),
+
+		// Cute upward smile with blush
+		avatarSVG("#ffd4e5", "#ffe1c4",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M40 60 Q50 70 60 60" stroke="black" fill="none" stroke-width="3"/>`,
+			true
+		),
+
+		// Gentle small smile
+		avatarSVG("#e0ffe4", "#f7d7b2",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M42 60 Q50 68 58 60" stroke="black" fill="none" stroke-width="3"/>`,
+			false
+		),
+
+		// Happy smile with rectangular eyes
+		avatarSVG("#fff8c2", "#f1c08f",
+			`<rect x="36" y="40" width="10" height="6" fill="black"/>
+			 <rect x="54" y="40" width="10" height="6" fill="black"/>`,
+			`<path d="M40 62 Q50 78 60 62" stroke="black" fill="none" stroke-width="3"/>`,
+			false
+		),
+
+		// Slight curve smile (soft personality)
+		avatarSVG("#e5d9ff", "#d9a06d",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M40 63 Q50 70 60 63" stroke="black" fill="none" stroke-width="3"/>`,
+			false
+		),
+
+		// Wide smile with blush
+		avatarSVG("#bde5ff", "#9b6a43",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M38 62 Q50 78 62 62" stroke="black" fill="none" stroke-width="3"/>`,
+			true
+		),
+
+		// Triangular eyes + big curved smile
+		avatarSVG("#ffd4e5", "#ffe1c4",
+			`<polygon points="36,42 46,42 41,34" fill="black"/>
+			 <polygon points="54,42 64,42 59,34" fill="black"/>`,
+			`<path d="M40 62 Q50 80 60 62" stroke="black" fill="none" stroke-width="3"/>`,
+			false
+		),
+
+		// Gentle soft smile
+		avatarSVG("#e0ffe4", "#f7d7b2",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M40 58 Q50 68 60 58" stroke="black" fill="none" stroke-width="3"/>`,
+			false
+		),
+
+		// Big open smile with blush
+		avatarSVG("#fff8c2", "#f1c08f",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M38 60 Q50 85 62 60" stroke="black" fill="none" stroke-width="3"/>`,
+			true
+		),
+
+		// Rectangular eyes + curved smile
+		avatarSVG("#e5d9ff", "#d9a06d",
+			`<rect x="36" y="40" width="10" height="6" fill="black"/>
+			 <rect x="54" y="40" width="10" height="6" fill="black"/>`,
+			`<path d="M40 60 Q50 72 60 60" stroke="black" fill="none" stroke-width="3"/>`,
+			false
+		),
+
+		// Very big excited smile
+		avatarSVG("#bde5ff", "#f7d7b2",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M38 62 Q50 90 62 62" stroke="black" fill="none" stroke-width="3"/>`,
+			false
+		),
+
+		// Smiling with blush & flat eyes (cute)
+		avatarSVG("#ffd4e5", "#9b6a43",
+			`<circle cx="40" cy="45" r="4"/> <circle cx="60" cy="45" r="4"/>`,
+			`<path d="M42 62 Q50 72 58 62" stroke="black" fill="none" stroke-width="3"/>`,
+			true
+		)
+	];
 
     let selectedAvatar = null;
 
     //---------------------------------------------------
-    // RESET
+    // RESET BUTTON
     //---------------------------------------------------
     $("#resetBtn").click(() => {
         if (confirm("Reset everything?")) {
@@ -79,7 +175,7 @@ $(document).ready(function () {
     });
 
     //---------------------------------------------------
-    // SAVE
+    // SAVE FUNCTION
     //---------------------------------------------------
     function save() {
         localStorage.setItem("kids", JSON.stringify(kids));
@@ -87,40 +183,37 @@ $(document).ready(function () {
     }
 
     //---------------------------------------------------
-    // ADD KID
+    // DROPDOWN STAR SELECTION HANDLER
     //---------------------------------------------------
-    $("#addKidBtn").click(() => {
+    $("#presetStar").change(function () {
+        let v = $(this).val();
 
-        let name = $("#kidName").val().trim();
-        let valid = true;
+        $("#customStarArea").hide();
 
-        clearError("kidName");
-        $("#err_avatar").hide();
+        if (v === "") return;
 
-        if (!name) { showError("kidName","Enter a name"); valid=false; }
-        if (!selectedAvatar) { $("#err_avatar").text("Pick an avatar").fadeIn(); valid=false; }
+        if (v === "custom") {
+            $("#customStarArea").slideDown();
+            return;
+        }
 
-        if (!valid) return;
+        let preset = PRESET_STARS[v];
+        if (!preset) return;
 
-        let k = {
-            name,
-            avatar: selectedAvatar,
-            stars: {}
-        };
+        starTypes.push(preset);
+        kids.forEach(k => k.stars[preset.name] = 0);
 
-        starTypes.forEach(st => k.stars[st.name] = 0);
-
-        kids.push(k);
         save();
         renderKids();
+        renderStarTypes();
 
-        $("#kidName").val("");
-        $(".avatar").removeClass("selected");
-        selectedAvatar = null;
+        showToast(`⭐ Added: ${preset.name}`);
+
+        $("#presetStar").val("");
     });
 
     //---------------------------------------------------
-    // ADD STAR TYPE
+    // ADD CUSTOM STAR TYPE
     //---------------------------------------------------
     $("#addStarTypeBtn").click(() => {
 
@@ -130,13 +223,14 @@ $(document).ready(function () {
         let colour = $("#starColour").val();
 
         let valid = true;
-        clearError("starName");
-        clearError("starMeaning");
-        clearError("starNeeded");
 
-        if (!name) { showError("starName","Enter a name"); valid=false; }
-        if (!meaning) { showError("starMeaning","Enter a meaning"); valid=false; }
-        if (!needed || needed < 1) { showError("starNeeded","Enter >0"); valid=false; }
+        $("#err_starName").hide();
+        $("#err_starMeaning").hide();
+        $("#err_starNeeded").hide();
+
+        if (!name) { $("#err_starName").text("Enter a name").fadeIn(); valid = false; }
+        if (!meaning) { $("#err_starMeaning").text("Enter a meaning").fadeIn(); valid = false; }
+        if (!needed || needed < 1) { $("#err_starNeeded").text("Enter >0").fadeIn(); valid = false; }
 
         if (!valid) return;
 
@@ -146,12 +240,59 @@ $(document).ready(function () {
         kids.forEach(k => k.stars[name] = 0);
 
         save();
-        renderStarTypes();
         renderKids();
+        renderStarTypes();
+
+        showToast(`⭐ Custom Star Added: ${name}`);
 
         $("#starName").val("");
         $("#starMeaning").val("");
         $("#starNeeded").val("");
+        $("#customStarArea").slideUp();
+        $("#presetStar").val("");
+    });
+
+    //---------------------------------------------------
+    // ADD KID — FULL VALIDATION RESTORED
+    //---------------------------------------------------
+    $("#addKidBtn").click(() => {
+
+        let name = $("#kidName").val().trim();
+        let valid = true;
+
+        clearError("kidName");
+        $("#err_avatar").hide();
+
+        if (!name) {
+            showError("kidName", "Enter a name");
+            valid = false;
+        }
+
+        if (!selectedAvatar) {
+            $("#err_avatar").text("Pick an avatar").fadeIn();
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        let k = {
+            name,
+            avatar: selectedAvatar,
+            stars: {}
+        };
+
+        // Create counters for all star types
+        starTypes.forEach(st => k.stars[st.name] = 0);
+
+        kids.push(k);
+        save();
+        renderKids();
+
+        showToast(`👦 Kid Added: ${name}`);
+
+        $("#kidName").val("");
+        $(".avatar").removeClass("selected");
+        selectedAvatar = null;
     });
 
     //---------------------------------------------------
@@ -178,17 +319,19 @@ $(document).ready(function () {
                         <button class="btn small" data-action="down" data-i="${i}">Down</button>
                     </div>
 
-                    <div id="editKid_${i}" style="display:none; margin-top:12px;">
-                        <input id="editKidName_${i}" class="input-text" value="${kid.name}">
-                        <button class="btn small primary" data-action="saveKid" data-i="${i}">Save</button>
-                        <button class="btn small danger" data-action="cancelKid" data-i="${i}">Cancel</button>
-                    </div>
+					<div id="editKid_${i}" style="display:none; margin-top:12px;">
+						<label for="editKidName_${i}">Edit Name</label>
+						<input id="editKidName_${i}" class="input-text" value="${kid.name}">
+						<button class="btn small primary" data-action="saveKid" data-i="${i}">Save</button>
+						<button class="btn small danger" data-action="cancelKid" data-i="${i}">Cancel</button>
+					</div>
 
                     <div class="kid-stars"></div>
 
                 </div>
             `);
 
+            // Add star types + controls
             starTypes.forEach(st => {
                 let count = kid.stars[st.name] || 0;
 
@@ -212,7 +355,7 @@ $(document).ready(function () {
 
                 let ticks = "";
                 let sets = Math.floor(count / st.needed);
-                for (let t = 0; t < sets; t++) ticks += `<span style="color:${st.colour};">✓</span>`;
+                for (let t = 0; t < sets; t++) ticks += `<span style="color:${st.colour}; font-size:26px;">✓</span>`;
                 block.find(".tick-row").html(ticks);
 
                 card.find(".kid-stars").append(block);
@@ -231,8 +374,9 @@ $(document).ready(function () {
 
         if (action === "del") {
             if (confirm("Delete this kid?")) {
-                kids.splice(i,1);
-                save(); renderKids();
+                kids.splice(i, 1);
+                save();
+                renderKids();
             }
             return;
         }
@@ -251,47 +395,58 @@ $(document).ready(function () {
             let newName = $(`#editKidName_${i}`).val().trim();
             if (newName) {
                 kids[i].name = newName;
-                save(); renderKids();
+                save();
+                renderKids();
+                showToast(`👌 Updated: ${newName}`);
             }
             return;
         }
 
         if (action === "up" && i > 0) {
             [kids[i], kids[i-1]] = [kids[i-1], kids[i]];
-            save(); renderKids();
+            save();
+            renderKids();
             return;
         }
 
         if (action === "down" && i < kids.length - 1) {
             [kids[i], kids[i+1]] = [kids[i+1], kids[i]];
-            save(); renderKids();
+            save();
+            renderKids();
             return;
         }
     });
 
     //---------------------------------------------------
-    // STAR +/-
+    // STAR +/- BUTTONS
     //---------------------------------------------------
     $(document).on("click", ".pm-btn", function () {
         let i = $(this).data("i");
         let type = $(this).data("type");
         let op = $(this).data("op");
 
-        if (op === "plus") kids[i].stars[type]++;
-        if (op === "minus" && kids[i].stars[type] > 0) kids[i].stars[type]--;
+        if (op === "plus") {
+            kids[i].stars[type]++;
+            showToast(`⭐ +1 ${type}`);
+        }
 
-        save(); renderKids();
+        if (op === "minus" && kids[i].stars[type] > 0) {
+            kids[i].stars[type]--;
+            showToast(`➖ Removed 1 ${type}`);
+        }
+
+        save();
+        renderKids();
     });
 
     //---------------------------------------------------
-    // RENDER STAR TYPES
+    // STAR TYPE LIST AT BOTTOM
     //---------------------------------------------------
     function renderStarTypes() {
 
         $("#starTypesList").html("");
 
         starTypes.forEach((st, i) => {
-
             let card = $(`
                 <div class="card starTypeCard">
 
@@ -307,28 +462,27 @@ $(document).ready(function () {
                         </div>
                     </div>
 
-                    <div id="editStar_${i}" style="display:none; margin-top:12px;">
+					<div id="editStar_${i}" style="display:none; margin-top:12px;">
 
-                        <label for="editStarName_${i}">Name</label>
-                        <input class="input-text" id="editStarName_${i}" value="${st.name}">
+						<label for="editStarName_${i}">Name</label>
+						<input class="input-text" id="editStarName_${i}" value="${st.name}">
 
-                        <label for="editStarMeaning_${i}">Meaning</label>
-                        <input class="input-text" id="editStarMeaning_${i}" value="${st.meaning}">
+						<label for="editStarMeaning_${i}">Meaning</label>
+						<input class="input-text" id="editStarMeaning_${i}" value="${st.meaning}">
 
-                        <label for="editStarNeeded_${i}">Needed</label>
-                        <input class="input-text" id="editStarNeeded_${i}" type="number" value="${st.needed}">
+						<label for="editStarNeeded_${i}">Needed</label>
+						<input class="input-text" id="editStarNeeded_${i}" type="number" value="${st.needed}">
 
-                        <label for="editStarColour_${i}">Colour</label>
-                        <div class="colour-picker">
-                            <div class="colour-circle" id="editPrev_${i}" style="background:${st.colour};"></div>
-                            <input type="color" id="editStarColour_${i}" value="${st.colour}">
-                        </div>
+						<label for="editStarColour_${i}">Colour</label>
+						<div class="colour-picker">
+							<div class="colour-circle" id="editPrev_${i}" style="background:${st.colour};"></div>
+							<input type="color" id="editStarColour_${i}" value="${st.colour}">
+						</div>
 
-                        <button class="btn primary small" data-action="saveStar" data-i="${i}">Save</button>
-                        <button class="btn small danger" data-action="cancelStar" data-i="${i}">Cancel</button>
+						<button class="btn primary small" data-action="saveStar" data-i="${i}">Save</button>
+						<button class="btn small danger" data-action="cancelStar" data-i="${i}">Cancel</button>
 
-                    </div>
-
+					</div>
                 </div>
             `);
 
@@ -337,20 +491,23 @@ $(document).ready(function () {
     }
 
     //---------------------------------------------------
-    // STAR TYPE ACTIONS
+    // STAR TYPE EDIT/DELETE ACTIONS
     //---------------------------------------------------
-    $(document).on("click","#starTypesList button",function(){
+    $(document).on("click", "#starTypesList button", function () {
         let i = $(this).data("i");
         let action = $(this).data("action");
 
         if (action === "delStar") {
             if (confirm("Delete this star type?")) {
                 let old = starTypes[i].name;
-                starTypes.splice(i,1);
+                starTypes.splice(i, 1);
 
                 kids.forEach(k => delete k.stars[old]);
 
-                save(); renderStarTypes(); renderKids();
+                save();
+                renderStarTypes();
+                renderKids();
+                showToast(`❌ Deleted star type: ${old}`);
             }
             return;
         }
@@ -374,7 +531,6 @@ $(document).ready(function () {
 
             if (!newName || !newMeaning || !newNeeded) return;
 
-            // fix mapping BEFORE re-render
             let oldName = starTypes[i].name;
 
             starTypes[i] = {
@@ -393,6 +549,7 @@ $(document).ready(function () {
             save();
             renderStarTypes();
             renderKids();
+            showToast(`✔ Updated: ${newName}`);
         }
     });
 

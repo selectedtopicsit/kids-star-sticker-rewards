@@ -13,6 +13,8 @@
 
 <button id="resetBtn" class="btn danger small reset-button">Reset</button>
 
+<div id="toastContainer"></div>
+
 <div class="container">
 
     <h1 class="main-title">⭐ Kids Star Sticker Rewards ⭐</h1>
@@ -35,29 +37,46 @@
     <!-- Kids List -->
     <section id="kidsList"></section>
 
-    <!-- Add Star -->
+    <!-- Add Star Type -->
     <section class="card">
         <h2>Add Star Type</h2>
 
-        <label for="starName">Star Name</label>
-        <input id="starName" class="input-text" />
-        <div id="err_starName" class="error-msg"></div>
+        <label for="presetStar">Choose Star Type</label>
+        <select id="presetStar" class="input-text">
+            <option value="">-- Select --</option>
+            <option value="kindness">⭐ Kindness</option>
+            <option value="routine">📘 Routine Tasks</option>
+            <option value="helping">🤝 Helping Others</option>
+            <option value="study">📚 Study / Homework</option>
+            <option value="sharing">🎁 Sharing</option>
+            <option value="respectful">😊 Respectful</option>
+            <option value="cleanup">🧹 Clean Up Time</option>
+            <option value="custom">➕ Custom Star</option>
+        </select>
 
-        <label for="starMeaning">Meaning</label>
-        <input id="starMeaning" class="input-text" />
-        <div id="err_starMeaning" class="error-msg"></div>
+        <div id="customStarArea" style="display:none; margin-top:18px;">
 
-        <label for="starNeeded">Stars Needed for Prize</label>
-        <input id="starNeeded" class="input-text" type="number" />
-        <div id="err_starNeeded" class="error-msg"></div>
+            <label for="starName">Star Name</label>
+            <input id="starName" class="input-text" />
+            <div id="err_starName" class="error-msg"></div>
 
-        <label for="starColour">Colour</label>
-        <div class="colour-picker">
-            <div id="colourPreview" class="colour-circle"></div>
-            <input id="starColour" type="color" />
+            <label for="starMeaning">Meaning</label>
+            <input id="starMeaning" class="input-text" />
+            <div id="err_starMeaning" class="error-msg"></div>
+
+            <label for="starNeeded">Stars Needed for Prize</label>
+            <input id="starNeeded" class="input-text" type="number" />
+            <div id="err_starNeeded" class="error-msg"></div>
+
+            <label for="starColour">Colour</label>
+            <div class="colour-picker">
+                <div id="colourPreview" class="colour-circle"></div>
+                <input id="starColour" type="color" />
+            </div>
+
+            <button id="addStarTypeBtn" class="btn primary wide">Add Star Type</button>
         </div>
 
-        <button id="addStarTypeBtn" class="btn primary wide">Add Star Type</button>
     </section>
 
     <!-- Star Types -->
@@ -68,4 +87,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
